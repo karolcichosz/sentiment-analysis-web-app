@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Sentiment Analysis Web App</title>
+        <meta charset="utf-8">
+        <meta name="viewport"  content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://bootswatch.com/3/darkly/bootstrap.css" media="screen">
+        <link rel="stylesheet" href="https://bootswatch.com/3/assets/css/custom.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <script>
+         "use strict";
+         function submitForm(oFormElement) {
+             var xhr = new XMLHttpRequest();
+             xhr.onload = function() {
+                 var result = parseFloat(xhr.responseText);
+                 var resultElement = document.getElementById('result');
+                 if (result == 0) {
+                     resultElement.className = 'text-danger';
+                     resultElement.innerHTML = 'Your review was NEGATIVE!';
+                 } else {
+                     resultElement.className = 'text-success';
+                     resultElement.innerHTML = 'Your review was POSITIVE!';
+                 }
+             }
+             xhr.open (oFormElement.method, oFormElement.action, true);
+             var review = document.getElementById('review');
+             xhr.send (review.value);
+             return false;
+         }
+        </script>
+
+    </head>
+    <body">
+
+        <div class="container">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">This SENTIMENT ANALYSIS WEB APP predicts, if your movie review is positive or negative.</h3>
+                </div>
+                <div class="panel-body">
+                  <span class="text-info">Programming language: </span> Python <br />
+                  <span class="text-info">Machine learning framework: </span> <a target="_blank" href="https://pytorch.org">PyTorch</a> <br />
+                  <span class="text-info">Environment: </span> (Amazon Web Services ) <a target="_blank" href="https://aws.amazon.com/sagemaker/">Amazon SageMaker</a>, <a target="_blank" href="https://aws.amazon.com/lambda/">AWS Lambda</a>, <a target="_blank" href="https://aws.amazon.com/api-gateway/">Amazon API Gateway</a> <br />
+                </div>
+              </div>
+
+            <br />
+            <h1>Is your review <span class="text-success">positive</span>, or <span class="text-danger">negative</span>?</h1>
+            <br />
+            <p>Enter your movie review below and click submit to find out...</p>
+            <br />
+            <form method="POST"
+                  action="https://5duw5corgj.execute-api.eu-central-1.amazonaws.com/prod"
+                  onsubmit="return submitForm(this);" >                     <!-- HERE IS WHERE YOU NEED TO ENTER THE API URL -->
+                <div class="form-group">
+                    <label for="review">Review:</label>
+                    <textarea class="form-control border border-info"  rows="5" id="review">Please write your review here.</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <h1 class="bg-success" id="result"></h1>
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        Made by: <a target="_blank" href="https://www.linkedin.com/in/karolcichosz/">Karol Cichosz</a>
+                    </div>
+                </div>
+        </div>
+    </body>
+</html>
